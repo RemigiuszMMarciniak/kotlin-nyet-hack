@@ -5,10 +5,7 @@ fun main (args : Array<String>){
     val isImmortal = false
 
 
-//    aura
-    val auraVisible = isBlessed && healthPoints > 50 || isImmortal
-    val auraColor = if(auraVisible) "GREENY AURA" else "NO AURA"
-//    println(auraColor)
+
 
 //    health
     val healthStatus = when(healthPoints){
@@ -52,9 +49,35 @@ fun main (args : Array<String>){
     }
 
     println("$name is a $race and belongs to $faction")
+//    aura
+    val auraVisible = isBlessed && healthPoints > 50 || isImmortal
+    val karma = (Math.pow(Math.random(),(110 - healthPoints) /100.0) * 20).toInt()
+    val auraColor = when(karma){
+        in 0..4 -> "RED"
+        in 5..10 -> "ORANGE"
+        in 11..15 -> "PURPLE"
+        in 16..20 -> "GREENY"
+        else -> "BLACK"
+    }
+//    val auraColor = if(auraVisible) "GREENY AURA" else "NO AURA"
+//    println(auraColor)
 
 //    health status
     println("(Aura: $auraColor)" +
             "(Blessed: ${if(isBlessed) "YES" else "NO"})")
     println("$name $healthStatus")
+
+//    wrong! - this code does not work correctly - formatting strings in kotlin
+    val statusFormat = "(HP)(A) -> H"
+    var info = ""
+    if (statusFormat.contains('H')){
+        info += " (H: $healthStatus)"
+    }else if(statusFormat.contains('A')){
+        info += " (A: $auraColor)"
+    }else if(statusFormat.contains('B')){
+        info += " (B: $isBlessed)"
+    }else{
+        info += " (HP: $healthPoints)"
+    }
+    println(info)
 }
