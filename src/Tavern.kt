@@ -3,12 +3,6 @@ import kotlin.math.roundToInt
 import kotlin.reflect.typeOf
 
 const val TAVERN_NAME = "Szynk Hipolit'a"
-const val GOLD_TO_DRAGON_COIN_RATE = 1.43
-var playerDragonCoins = 5.0
-var playerGold = (playerDragonCoins * GOLD_TO_DRAGON_COIN_RATE).toInt()
-var playerSilver = ((playerDragonCoins * GOLD_TO_DRAGON_COIN_RATE) % 1 * 100).roundToInt()
-var dragonBreathBarrels = 5.0
-
 val patronList:MutableList<String> = listOf("Ela","Mordeczka","Zocha").toMutableList()
 val lastName = listOf<String>("Ironfoot","Cutthroat","Plague")
 val uniquePatrons = mutableSetOf<String>()
@@ -16,16 +10,11 @@ val menuList = File("data/tavern-menu-items.txt")
         .readText()
         .split("\n")
 
-fun main(args : Array<String>) {
+//val patronGold = mapOf("Ela" to 10.5, "Mordeczka" to 8.0, "Zocha" to 5.5)
+//val patronGoldMutable = mutableMapOf("Ela" to 10.5, "Mordeczka" to 8.0, "Zocha" to 5.5)
+var patronGold = mutableMapOf<String,Double>()
 
-//     menuList.forEachIndexed { index, data ->
-//        println("$index : $data")
-//    }
-//
-//    patronList.forEachIndexed { index, patron ->
-//        println("Hello $patron! You are number ${index+1}.")
-//        placeOrder(patron,menuList.shuffled().first())
-//    }
+fun main(args : Array<String>) {
 
     (0..9).forEach {
         val first = patronList.shuffled().first()
@@ -35,9 +24,12 @@ fun main(args : Array<String>) {
         uniquePatrons+=name
     }
     println(uniquePatrons)
-//
-//    println(mutableSetOf(1,2).add(3))
-//    println(mutableSetOf(1,2).addAll(listOf(1,2,3,4,5)))
+
+    uniquePatrons.forEach {
+        patronGold[it] = 6.0
+    }
+    println(patronGold)
+    println(uniquePatrons)
 
     var orderCount = 0
     while(orderCount <= 9){
@@ -45,46 +37,53 @@ fun main(args : Array<String>) {
         orderCount++
     }
 
+    displayPatronBalances()
 
-//    var isTavernOpen = true
-//    val isClosingTime = false
+    println(patronGold)
+    println(uniquePatrons)
+
+
+
+//    patronGold = mutableMapOf("Zocha" to 5.0)
+//    val patronGold2 = mutableMapOf("Zocha" to 5.0)
+//    patronGold2 += "Zocha" to 5.5
+//    println(patronGold2)
+//    patronGold.plus("Zocha" to 5.0)
+//    patronGold.put("John",6.6)
+//    patronGold.putAll(listOf("Jane" to 5.0, "Jared" to 6.7))
+//    println(patronGold.getOrPut("John",{5.5}))
 //
-//    while(isTavernOpen == true){
-//        if (isClosingTime){
-//            break
-//        }
-//        println("party!!!")
-//    }
-
-    val tempList = listOf("Ela Urwileb","Ela Urwileb", "Ela Zaraza")
-    println(tempList.toSet())
-    val setTempList = tempList.toSet()
-    println(setTempList.toList()[0])
-    println(tempList.toSet().toList())
-    println(tempList.distinct())
-
-    val playerAges : IntArray = intArrayOf(32,27,14,52,101)
-    playerAges.forEach {
-        println(it)
-    }
-    val playerAgesList : List<Int> = listOf(32,27,14,52,101)
-    playerAgesList.toIntArray().forEach { println(it) }
-
-    val x = listOf(mutableListOf(1,2,3))
-    val y = listOf(mutableListOf(1,2,3))
-    println("equal x and y: ${x==y}")
-    x[0].add(4)
-    println("equal x and y: ${x==y}")
-
-    var myList : List<Int> = listOf(1,2,3)
-    (myList as MutableList)[2] = 1000
-    println(myList is List<Int>)
-
+//    println(patronGold)
+//
+//    println(patronGold)
+//    var patronGoldUsingPair = mapOf<String,Double>(Pair("Ela",10.5),
+//        Pair("Mordeczka",8.0),
+//        Pair("Zocha",5.5))
+//    println(patronGoldUsingPair)
+//
+//    patronGoldMutable += "Zocha" to 6.5
+//
+//    println(patronGoldMutable)
+//
+//    println(patronGoldMutable["Ela"])
+//    println(patronGoldMutable["Mordeczka"])
+//    println(patronGoldMutable["John"])
+//    val mapValue = patronGoldMutable["John"] ?: "No value"
+//    println(mapValue)
 
 
 
 
 }
+private fun displayPatronBalances(){
+//    patronGold.forEach {
+//        println("${it.key} : ${it.value}")
+//    }
+    patronGold.forEach{ (patron, balance) ->
+        println("$patron : ${"%.2f".format(balance)}")
+    }
+}
+
 private fun placeOrder(patronName:String){
     val indexOfApostrophe = TAVERN_NAME.indexOf('\'')
     val tavernMaster = TAVERN_NAME.substring(6 until indexOfApostrophe)
@@ -94,11 +93,9 @@ private fun placeOrder(patronName:String, menuData : String){
     placeOrder(patronName)
 
     val (type, name, price) = menuData.split(',')
-
-
-//    val isEnoughMoney = performPurchase(price.toDouble())
-    val isEnoughMoney = true
-    if(isEnoughMoney){
+    checkPatronGold(price.toDouble(),patronName)
+    try {
+        performPurchase(price.toDouble(),patronName)
         val message = "$patronName has bought $name ($type) for $price"
         println(message)
 
@@ -108,59 +105,23 @@ private fun placeOrder(patronName:String, menuData : String){
             "$patronName: thank you for $name"
         }
         println(phrase)
+    }catch (e :NoSuchElementException){
+        println("$patronName has no money! Leave the tavern now.")
+    }
+
+
+}
+private fun performPurchase(price : Double,patronName: String){
+    val totalPurse = patronGold.getValue(patronName)
+    patronGold[patronName] = totalPurse - price
+}
+private fun checkPatronGold(price : Double,patronName: String){
+    if(patronGold.getValue(patronName) <= 0){
+        patronGold.remove(patronName)
+        uniquePatrons.remove(patronName)
     }else{
-        println("$patronName doesn't have enough money")
+        return
     }
-
-}
-private fun performPurchase(price : Double) : Boolean{
-    displayBalance()
-    val totalPurse = playerGold + playerSilver/100.0
-//    println("Total money: $totalPurse")
-    println("Total money: ${"%.4f".format(playerDragonCoins)}")
-    println("Ordering a product for $price")
-    val remainingBalance = totalPurse - price
-    return if(remainingBalance < 0){
-        false
-    }else {
-//        println("Remaining total money: ${"%.2f".format(remainingBalance)}")
-        val remainingDragonCoins = remainingBalance / GOLD_TO_DRAGON_COIN_RATE
-        println("Remaining total money: ${"%.4f".format(remainingDragonCoins)}")
-        playerDragonCoins = remainingDragonCoins
-        playerGold = (playerDragonCoins * GOLD_TO_DRAGON_COIN_RATE).toInt()
-        playerSilver = ((playerDragonCoins * GOLD_TO_DRAGON_COIN_RATE) % 1 * 100).roundToInt()
-        println(playerGold)
-        println(playerSilver)
-
-//        val remainingGold = remainingBalance.toInt()
-//        val remainingSilver = (remainingBalance % 1 * 100).roundToInt()
-//        playerGold = remainingGold
-//        playerSilver = remainingSilver
-        displayBalance()
-
-        dragonBreathBarrels -= 0.125
-        displayDragonBreathStock()
-        true
-    }
-}
-
-
-
-private fun displayDragonBreathStock(){
-    println("Remaining Dragon Breath barrels: $dragonBreathBarrels")
-//    if(( (dragonBreathBarrels - 2.0) % 1.5) == 0.0){
-//        val remainingDragonBreathGlasses = ( dragonBreathBarrels / 0.125 ).toInt()
-//        println("Remaining Dragon Breath glasses: $remainingDragonBreathGlasses")
-//    }
-    if( dragonBreathBarrels == 3.5){
-        val remainingDragonBreathGlasses = ( dragonBreathBarrels / 0.125 ).toInt()
-        println("Remaining Dragon Breath glasses: $remainingDragonBreathGlasses")
-    }
-}
-
-private fun displayBalance(){
-//    println("Player sack: gold $playerGold , silver $playerSilver")
-    println("Player sack: dragon coins ${"%.4f".format(playerDragonCoins)}")
 }
 
 private fun toDragonSpeak(phrase : String) : String {
