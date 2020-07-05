@@ -1,6 +1,6 @@
+package edu.rmm.nyethack
+
 import java.io.File
-import kotlin.math.roundToInt
-import kotlin.reflect.typeOf
 
 const val TAVERN_NAME = "Szynk Hipolit'a"
 val patronList:MutableList<String> = listOf("Ela","Mordeczka","Zocha").toMutableList()
@@ -10,7 +10,7 @@ val menuList = File("data/tavern-menu-items.txt")
         .readText()
         .split("\n")
 
-//val patronGold = mapOf("Ela" to 10.5, "Mordeczka" to 8.0, "Zocha" to 5.5)
+//val edu.rmm.nyethack.getPatronGold = mapOf("Ela" to 10.5, "Mordeczka" to 8.0, "Zocha" to 5.5)
 //val patronGoldMutable = mutableMapOf("Ela" to 10.5, "Mordeczka" to 8.0, "Zocha" to 5.5)
 var patronGold = mutableMapOf<String,Double>()
 
@@ -21,7 +21,7 @@ fun main(args : Array<String>) {
         val last = lastName.shuffled().first()
         val name = "$first $last"
         println(name)
-        uniquePatrons+=name
+        uniquePatrons +=name
     }
     println(uniquePatrons)
 
@@ -33,7 +33,7 @@ fun main(args : Array<String>) {
 
     var orderCount = 0
     while(orderCount <= 9){
-        placeOrder(uniquePatrons.shuffled().first(),menuList.shuffled().first())
+        placeOrder(uniquePatrons.shuffled().first(), menuList.shuffled().first())
         orderCount++
     }
 
@@ -44,18 +44,18 @@ fun main(args : Array<String>) {
 
 
 
-//    patronGold = mutableMapOf("Zocha" to 5.0)
+//    edu.rmm.nyethack.getPatronGold = mutableMapOf("Zocha" to 5.0)
 //    val patronGold2 = mutableMapOf("Zocha" to 5.0)
 //    patronGold2 += "Zocha" to 5.5
 //    println(patronGold2)
-//    patronGold.plus("Zocha" to 5.0)
-//    patronGold.put("John",6.6)
-//    patronGold.putAll(listOf("Jane" to 5.0, "Jared" to 6.7))
-//    println(patronGold.getOrPut("John",{5.5}))
+//    edu.rmm.nyethack.getPatronGold.plus("Zocha" to 5.0)
+//    edu.rmm.nyethack.getPatronGold.put("John",6.6)
+//    edu.rmm.nyethack.getPatronGold.putAll(listOf("Jane" to 5.0, "Jared" to 6.7))
+//    println(edu.rmm.nyethack.getPatronGold.getOrPut("John",{5.5}))
 //
-//    println(patronGold)
+//    println(edu.rmm.nyethack.getPatronGold)
 //
-//    println(patronGold)
+//    println(edu.rmm.nyethack.getPatronGold)
 //    var patronGoldUsingPair = mapOf<String,Double>(Pair("Ela",10.5),
 //        Pair("Mordeczka",8.0),
 //        Pair("Zocha",5.5))
@@ -76,7 +76,7 @@ fun main(args : Array<String>) {
 
 }
 private fun displayPatronBalances(){
-//    patronGold.forEach {
+//    edu.rmm.nyethack.getPatronGold.forEach {
 //        println("${it.key} : ${it.value}")
 //    }
     patronGold.forEach{ (patron, balance) ->
@@ -93,9 +93,9 @@ private fun placeOrder(patronName:String, menuData : String){
     placeOrder(patronName)
 
     val (type, name, price) = menuData.split(',')
-    checkPatronGold(price.toDouble(),patronName)
+    checkPatronGold(price.toDouble(), patronName)
     try {
-        performPurchase(price.toDouble(),patronName)
+        performPurchase(price.toDouble(), patronName)
         val message = "$patronName has bought $name ($type) for $price"
         println(message)
 

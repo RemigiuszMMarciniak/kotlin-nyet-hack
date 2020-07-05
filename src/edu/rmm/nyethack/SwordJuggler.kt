@@ -1,3 +1,5 @@
+package edu.rmm.nyethack
+
 import java.lang.IllegalStateException
 
 fun main() {
@@ -18,7 +20,7 @@ fun main() {
 }
 private fun proficiencyCheck(swordJuggling : Int?){
 //    swordJuggling ?: throw IllegalStateException("Your character is not able to juggle swords!")
-//    swordJuggling ?: throw UnskilledSwordJugglerException()
+//    swordJuggling ?: throw edu.rmm.nyethack.UnskilledSwordJugglerException()
     checkNotNull(swordJuggling,{ "Your character is not able to juggle swords!" })
 }
 class UnskilledSwordJugglerException() : IllegalStateException("Your character is not able to juggle swords!")
