@@ -1,8 +1,13 @@
 package edu.rmm.nyethack
 
+import java.io.File
+
 class Weapon(val name: String)
 
-class Player{
+class Player(_name: String,
+            var healthPoints: Int = 100,
+            val isBlessed : Boolean,
+            private val isImmortal: Boolean){
     var weapon : Weapon? = Weapon("Hebanowy Kris")
     fun printWeaponName(){
         weapon?.also {
@@ -10,15 +15,35 @@ class Player{
         }
     }
 
-    var name = "Mordowycz"
-    get() = field.capitalize()
+    var name = _name
+    get() = "${field.capitalize()} from $hometown"
     private set(value){
         field = value.trim()
     }
 
-    var healthPoints = 89
-    val isBlessed = true
-    private val isImmortal = false
+    val hometown by lazy{ selectHometown() }
+
+    private fun selectHometown(): String {
+        return File("data/towns.txt")
+                .readText()
+                .split("\n")
+                .shuffled()
+                .first()
+    }
+
+    init {
+        require(healthPoints > 0) { "HP must be > 0 !"}
+        require(name.isNotBlank()) {"NAme must not be null!"}
+    }
+
+
+    constructor(name:String) : this(name,
+            isBlessed = true,
+            isImmortal = false){
+        if (name.toLowerCase() == "jan"){
+            healthPoints = 40
+        }
+    }
 
 
     fun castFireball (numFireballs:Int = 2) = println("Fireball! x $numFireballs")

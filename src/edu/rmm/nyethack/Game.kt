@@ -3,8 +3,17 @@ package edu.rmm.nyethack
 const val MAX_EXPERIENCE : Int = 5000
 const val MAX_MAGICAL_INTOXICATION :Int = 50
 fun main (args : Array<String>){
-    val player = Player()
-    println(player)
+    val player = Player("Mordowycz",89,true,false)
+    println(player.healthPoints)
+    val player2 = Player("Mordowycz")
+    println(player2.healthPoints)
+    val player3 = Player("Mordowycz",isBlessed = true,isImmortal = false)
+    println(player3.healthPoints)
+    val player4 = Player("jan")
+    println(player4.healthPoints)
+//    val player5 = Player("jan",-646,isBlessed = true,isImmortal = false)
+//    println(player5)
+
     player.castFireball()
     player.castFireball(11)
 
