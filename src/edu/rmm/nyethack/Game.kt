@@ -1,5 +1,7 @@
 package edu.rmm.nyethack
 
+import java.lang.IllegalArgumentException
+
 const val MAX_EXPERIENCE : Int = 5000
 const val MAX_MAGICAL_INTOXICATION :Int = 50
 fun main (args : Array<String>){
@@ -44,6 +46,43 @@ fun main (args : Array<String>){
     println(myD6.rolledValue)
     println(myD6.rolledValue)
     println(myD6.rolledValue)
+
+    var currentRoom = Room("Room")
+    println(currentRoom.description())
+    println(currentRoom.load())
+
+    currentRoom = TownSquare()
+    println(currentRoom.description())
+    println(currentRoom.load())
+
+    currentRoom = Piazza()
+    println(currentRoom.description())
+    println(currentRoom.load())
+
+    var room = Room("room")
+    println(room is TownSquare)
+
+    var townSquare = TownSquare()
+    println(townSquare is TownSquare)
+    println(townSquare is Room)
+
+    var className = when(townSquare){
+        is TownSquare -> "TownSquare"
+        is Room -> "Room"
+        else -> throw IllegalArgumentException()
+    }
+    println(className)
+
+    printIsSourceOfBlessings(player)
+}
+
+fun printIsSourceOfBlessings(any:Any){
+    val isSourceOfBlessings = if(any is Player){
+        any.isBlessed
+    }else{
+        (any as Room).name == "Blessing Fountain"
+    }
+    println("$any is a source of blessings: $isSourceOfBlessings")
 }
 
 private fun printPlayerStatus(player : Player) {

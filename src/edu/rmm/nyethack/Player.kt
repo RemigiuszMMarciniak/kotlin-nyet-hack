@@ -45,6 +45,9 @@ class Player(_name: String,
         }
     }
 
+    override fun toString(): String {
+        return name
+    }
 
     fun castFireball (numFireballs:Int = 2) = println("Fireball! x $numFireballs")
 
