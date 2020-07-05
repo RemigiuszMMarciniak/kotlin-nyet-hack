@@ -10,7 +10,8 @@ open class Room(val name : String){
 
 open class TownSquare : Room("Town square"){
     override val dangerLevel = super.dangerLevel - 3
-    final override fun load() = "People are greeting you while you are entering the town \n ${ringBell()}"
+    override fun load() = "People are greeting you while you are entering the town \n ${ringBell()}"
+//    final override fun load() = "People are greeting you while you are entering the town \n ${ringBell()}"
     private var bellSound = "RIING"
     private fun ringBell() = "Bell rings when you enter the town. $bellSound"
 }
