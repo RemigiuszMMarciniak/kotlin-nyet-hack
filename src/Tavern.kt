@@ -8,127 +8,79 @@ var playerGold = (playerDragonCoins * GOLD_TO_DRAGON_COIN_RATE).toInt()
 var playerSilver = ((playerDragonCoins * GOLD_TO_DRAGON_COIN_RATE) % 1 * 100).roundToInt()
 var dragonBreathBarrels = 5.0
 
-//val patronList:List<String> = listOf("Ela","Mordeczka","Zocha")
-
+val patronList:MutableList<String> = listOf("Ela","Mordeczka","Zocha").toMutableList()
+val lastName = listOf<String>("Ironfoot","Cutthroat","Plague")
+val uniquePatrons = mutableSetOf<String>()
+val menuList = File("data/tavern-menu-items.txt")
+        .readText()
+        .split("\n")
 
 fun main(args : Array<String>) {
 
-//    println(patronList)
-//    println(patronList[0])
-//    println(patronList.first())
-//    println(patronList.last())
-//    println(patronList.getOrElse(4) { "Unknown index"})
-//    println()
-//
-//    val fifthPatron = patronList.getOrNull(4) ?: "Unknown index"
-//    println(fifthPatron)
-//
-//    if(patronList.contains("Ewa")){
-//        println("Ewa!")
-//    }else{
-//        println("no Ewa!")
+//     menuList.forEachIndexed { index, data ->
+//        println("$index : $data")
 //    }
 //
-//    if(patronList.containsAll(listOf("Zocha","Mordeczka"))){
-//        println("Zocha and Mordeczka!")
-//    }else{
-//        println("no Zocha and Mordeczka!")
+//    patronList.forEachIndexed { index, patron ->
+//        println("Hello $patron! You are number ${index+1}.")
+//        placeOrder(patron,menuList.shuffled().first())
 //    }
-//    val mutablePatronList : MutableList<String> = mutableListOf("Pedro","John","Jane")
-//    println(mutablePatronList)
-//    mutablePatronList.remove("Pedro")
-//    mutablePatronList.add("Santiago")
-//    mutablePatronList.add(0,"Wayne")
-//    println(mutablePatronList)
-//
-//    val readOnlyPatronList = mutablePatronList.toList()
-//    println(readOnlyPatronList)
-//
-//    mutablePatronList[0] = "Dwayne"
-//    println(mutablePatronList)
-//
 
-    val patronList:MutableList<String> = listOf("Ela","Mordeczka","Zocha").toMutableList()
-    val lastName = listOf<String>("Ironfoot","Cutthroat","Plague")
+    (0..9).forEach {
+        val first = patronList.shuffled().first()
+        val last = lastName.shuffled().first()
+        val name = "$first $last"
+        println(name)
+        uniquePatrons+=name
+    }
+    println(uniquePatrons)
+//
+//    println(mutableSetOf(1,2).add(3))
+//    println(mutableSetOf(1,2).addAll(listOf(1,2,3,4,5)))
 
-    val menuList = File("data/tavern-menu-items.txt")
-            .readText()
-            .split("\n")
-
-    for ( patron in patronList ){
-        println("$patron! Hello!")
+    var orderCount = 0
+    while(orderCount <= 9){
+        placeOrder(uniquePatrons.shuffled().first(),menuList.shuffled().first())
+        orderCount++
     }
 
-//    val list = listOf("Ela","Mordeczka","Zocha")
-//    list += listOf("John","Jane")
-//    list -= "Ela"
-//    println(list)
-//    list.removeIf {it.contains("o")}
-//    println(list)
-//    list.clear()
-//    println(list)
+
+//    var isTavernOpen = true
+//    val isClosingTime = false
 //
-//    var counter = 0
-//    for(i in 0..9){
-//        println(i)
-//        counter += 1
-//    }
-//    println("counter: $counter")
-//
-//    patronList.forEach { patron ->
-//        println("$patron! Heey!")
+//    while(isTavernOpen == true){
+//        if (isClosingTime){
+//            break
+//        }
+//        println("party!!!")
 //    }
 
+    val tempList = listOf("Ela Urwileb","Ela Urwileb", "Ela Zaraza")
+    println(tempList.toSet())
+    val setTempList = tempList.toSet()
+    println(setTempList.toList()[0])
+    println(tempList.toSet().toList())
+    println(tempList.distinct())
 
-    menuList.forEachIndexed { index, data ->
-        println("$index : $data")
+    val playerAges : IntArray = intArrayOf(32,27,14,52,101)
+    playerAges.forEach {
+        println(it)
     }
+    val playerAgesList : List<Int> = listOf(32,27,14,52,101)
+    playerAgesList.toIntArray().forEach { println(it) }
 
-    patronList.forEachIndexed { index, patron ->
-        println("Hello $patron! You are number ${index+1}.")
-        placeOrder(patron,menuList.shuffled().first())
-    }
+    val x = listOf(mutableListOf(1,2,3))
+    val y = listOf(mutableListOf(1,2,3))
+    println("equal x and y: ${x==y}")
+    x[0].add(4)
+    println("equal x and y: ${x==y}")
 
-    val (goldMedal, _,bronzeMedal) = patronList
-    println("$goldMedal , $bronzeMedal")
+    var myList : List<Int> = listOf(1,2,3)
+    (myList as MutableList)[2] = 1000
+    println(myList)
 
-    //sets
 
-    val planets = setOf("Mercury", "Venus", "Earth","Earth","Earth","Earth")
-    println(planets)
-    println(planets.contains("Ziemia"))
-    println(planets.containsAll(listOf("Mercury","Earth")))
 
-    println(planets.elementAt(2))
-
-//    println(playerGold)
-//    println(playerSilver)
-//    placeOrder()
-//    placeOrder("shandy,Dragon Breath, 5.91")
-//    placeOrder("shandy,Dragon Breath, 5.91")
-//    placeOrder("shandy,Dragon Breath, 5.91")
-//    placeOrder("shandy,Dragon Breath, 5.91")
-//    placeOrder("shandy,Dragon Breath, 5.91")
-//    placeOrder("shandy,Dragon Breath, 5.91")
-//    placeOrder("shandy,Dragon Breath, 5.91")
-//    placeOrder("shandy,Dragon Breath, 5.91")
-//    placeOrder("shandy,Dragon Breath, 5.91")
-//    placeOrder("shandy,Dragon Breath, 5.91")
-//    placeOrder("shandy,Dragon Breath, 5.91")
-//    placeOrder("shandy,Dragon Breath, 5.91")
-//    placeOrder("shandy,Dragon Breath, 5.91")
-//    placeOrder("elixir,Pidgeon, 4.83")
-
-//    val omSymbol = '\u0950'
-//    println(omSymbol)
-//    println(Integer.toBinaryString(42))
-//    println(Integer.toBinaryString(-42))
-//    println(42.shl(1))
-//    println(42.shr(1))
-//    println(42.inv())
-//    println(42.xor(33))
-//    println(42.or(33))
-//    println(42.and(33))
 
 
 }
