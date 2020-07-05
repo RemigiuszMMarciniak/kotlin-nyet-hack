@@ -1,5 +1,6 @@
 import java.io.File
 import kotlin.math.roundToInt
+import kotlin.reflect.typeOf
 
 const val TAVERN_NAME = "Szynk Hipolit'a"
 const val GOLD_TO_DRAGON_COIN_RATE = 1.43
@@ -77,7 +78,7 @@ fun main(args : Array<String>) {
 
     var myList : List<Int> = listOf(1,2,3)
     (myList as MutableList)[2] = 1000
-    println(myList)
+    println(myList is List<Int>)
 
 
 
