@@ -1,3 +1,4 @@
+import java.io.File
 import kotlin.math.roundToInt
 
 const val TAVERN_NAME = "Szynk Hipolit'a"
@@ -6,23 +7,116 @@ var playerDragonCoins = 5.0
 var playerGold = (playerDragonCoins * GOLD_TO_DRAGON_COIN_RATE).toInt()
 var playerSilver = ((playerDragonCoins * GOLD_TO_DRAGON_COIN_RATE) % 1 * 100).roundToInt()
 var dragonBreathBarrels = 5.0
+
+//val patronList:List<String> = listOf("Ela","Mordeczka","Zocha")
+
+
 fun main(args : Array<String>) {
-    println(playerGold)
-    println(playerSilver)
+
+//    println(patronList)
+//    println(patronList[0])
+//    println(patronList.first())
+//    println(patronList.last())
+//    println(patronList.getOrElse(4) { "Unknown index"})
+//    println()
+//
+//    val fifthPatron = patronList.getOrNull(4) ?: "Unknown index"
+//    println(fifthPatron)
+//
+//    if(patronList.contains("Ewa")){
+//        println("Ewa!")
+//    }else{
+//        println("no Ewa!")
+//    }
+//
+//    if(patronList.containsAll(listOf("Zocha","Mordeczka"))){
+//        println("Zocha and Mordeczka!")
+//    }else{
+//        println("no Zocha and Mordeczka!")
+//    }
+//    val mutablePatronList : MutableList<String> = mutableListOf("Pedro","John","Jane")
+//    println(mutablePatronList)
+//    mutablePatronList.remove("Pedro")
+//    mutablePatronList.add("Santiago")
+//    mutablePatronList.add(0,"Wayne")
+//    println(mutablePatronList)
+//
+//    val readOnlyPatronList = mutablePatronList.toList()
+//    println(readOnlyPatronList)
+//
+//    mutablePatronList[0] = "Dwayne"
+//    println(mutablePatronList)
+//
+
+    val patronList:MutableList<String> = listOf("Ela","Mordeczka","Zocha").toMutableList()
+    val lastName = listOf<String>("Ironfoot","Cutthroat","Plague")
+
+    val menuList = File("data/tavern-menu-items.txt")
+            .readText()
+            .split("\n")
+
+    for ( patron in patronList ){
+        println("$patron! Hello!")
+    }
+
+//    val list = listOf("Ela","Mordeczka","Zocha")
+//    list += listOf("John","Jane")
+//    list -= "Ela"
+//    println(list)
+//    list.removeIf {it.contains("o")}
+//    println(list)
+//    list.clear()
+//    println(list)
+//
+//    var counter = 0
+//    for(i in 0..9){
+//        println(i)
+//        counter += 1
+//    }
+//    println("counter: $counter")
+//
+//    patronList.forEach { patron ->
+//        println("$patron! Heey!")
+//    }
+
+
+    menuList.forEachIndexed { index, data ->
+        println("$index : $data")
+    }
+
+    patronList.forEachIndexed { index, patron ->
+        println("Hello $patron! You are number ${index+1}.")
+        placeOrder(patron,menuList.shuffled().first())
+    }
+
+    val (goldMedal, _,bronzeMedal) = patronList
+    println("$goldMedal , $bronzeMedal")
+
+    //sets
+
+    val planets = setOf("Mercury", "Venus", "Earth","Earth","Earth","Earth")
+    println(planets)
+    println(planets.contains("Ziemia"))
+    println(planets.containsAll(listOf("Mercury","Earth")))
+
+    println(planets.elementAt(2))
+
+//    println(playerGold)
+//    println(playerSilver)
 //    placeOrder()
-    placeOrder("shandy,Dragon Breath, 5.91")
-    placeOrder("shandy,Dragon Breath, 5.91")
-    placeOrder("shandy,Dragon Breath, 5.91")
-    placeOrder("shandy,Dragon Breath, 5.91")
-    placeOrder("shandy,Dragon Breath, 5.91")
-    placeOrder("shandy,Dragon Breath, 5.91")
-    placeOrder("shandy,Dragon Breath, 5.91")
-    placeOrder("shandy,Dragon Breath, 5.91")
-    placeOrder("shandy,Dragon Breath, 5.91")
-    placeOrder("shandy,Dragon Breath, 5.91")
-    placeOrder("shandy,Dragon Breath, 5.91")
-    placeOrder("shandy,Dragon Breath, 5.91")
-    placeOrder("shandy,Dragon Breath, 5.91")
+//    placeOrder("shandy,Dragon Breath, 5.91")
+//    placeOrder("shandy,Dragon Breath, 5.91")
+//    placeOrder("shandy,Dragon Breath, 5.91")
+//    placeOrder("shandy,Dragon Breath, 5.91")
+//    placeOrder("shandy,Dragon Breath, 5.91")
+//    placeOrder("shandy,Dragon Breath, 5.91")
+//    placeOrder("shandy,Dragon Breath, 5.91")
+//    placeOrder("shandy,Dragon Breath, 5.91")
+//    placeOrder("shandy,Dragon Breath, 5.91")
+//    placeOrder("shandy,Dragon Breath, 5.91")
+//    placeOrder("shandy,Dragon Breath, 5.91")
+//    placeOrder("shandy,Dragon Breath, 5.91")
+//    placeOrder("shandy,Dragon Breath, 5.91")
 //    placeOrder("elixir,Pidgeon, 4.83")
 
 //    val omSymbol = '\u0950'
@@ -38,34 +132,31 @@ fun main(args : Array<String>) {
 
 
 }
-private fun placeOrder(){
+private fun placeOrder(patronName:String){
     val indexOfApostrophe = TAVERN_NAME.indexOf('\'')
     val tavernMaster = TAVERN_NAME.substring(6 until indexOfApostrophe)
-    println("Mordowycz and $tavernMaster talk about the order")
+    println("$patronName and $tavernMaster talk about the order")
 }
-private fun placeOrder(menuData : String){
-    placeOrder()
+private fun placeOrder(patronName:String, menuData : String){
+    placeOrder(patronName)
 
     val (type, name, price) = menuData.split(',')
 
 
-    val isEnoughMoney = performPurchase(price.toDouble())
-
+//    val isEnoughMoney = performPurchase(price.toDouble())
+    val isEnoughMoney = true
     if(isEnoughMoney){
-        val message = "Mordowycz has bought $name ($type) for $price"
+        val message = "$patronName has bought $name ($type) for $price"
         println(message)
 
-//    val gold : Int = "5.91".toIntOrNull() ?: 0
-
-
         val phrase = if(name == "Dragon Breath"){
-            "Mordowycz: ${toDragonSpeak("Wow... this $name is amazing! AAAAAAAAA")}"
+            "$patronName: ${toDragonSpeak("Wow... this $name is amazing! AAAAAAAAA")}"
         }else{
-            "Mordowycz: thank you for $name"
+            "$patronName: thank you for $name"
         }
         println(phrase)
     }else{
-        println("Mordowycz doesn't have enough money")
+        println("$patronName doesn't have enough money")
     }
 
 }

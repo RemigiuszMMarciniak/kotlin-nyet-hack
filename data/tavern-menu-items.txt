@@ -1,0 +1,5 @@
+shandy,Dragon Breath,5.91
+elixir,Zdrowy Wykop,4.83
+meal,Bighead,1.22
+military food,Camel tail,7.33
+elixir,Ice breaker,11.22
