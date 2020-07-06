@@ -45,8 +45,12 @@ class Player(_name: String,
         }
     }
 
+    val currentPosition = Coordinate(0,0)
+    val differentPosition = currentPosition.copy(x=2)
+
+
     override fun toString(): String {
-        return name
+        return "$name in $currentPosition"
     }
 
     fun castFireball (numFireballs:Int = 2) = println("Fireball! x $numFireballs")

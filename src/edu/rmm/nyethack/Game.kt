@@ -56,6 +56,9 @@ object Game{
 //                override fun load() = "Nothing here... void..."
 //            }
 //            println(abandonedTownSquare.load())
+
+            val (x,y) = Coordinate(5,5)
+            val (experience,level) = PlayerScore(1250,5)
         }
     }
 
