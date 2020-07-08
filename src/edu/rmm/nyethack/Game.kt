@@ -1,6 +1,8 @@
 package edu.rmm.nyethack
 
+import java.lang.Exception
 import java.lang.IllegalArgumentException
+import java.lang.IllegalStateException
 
 const val MAX_EXPERIENCE : Int = 5000
 const val MAX_MAGICAL_INTOXICATION :Int = 50
@@ -36,6 +38,10 @@ private fun performCombat(enemyName: String, isBlessed: Boolean){
 object Game{
     private val player = Player("Mordowycz")
     private var currentRoom : Room = TownSquare()
+    private var worldMap = listOf(
+            listOf(currentRoom,Room("Tavern"),Room("Staff Room")),
+            listOf(Room("Long aisle"),Room("Lounge"))
+    )
     init {
         println("Welcome adventurer!")
         player.castFireball()
@@ -77,7 +83,26 @@ object Game{
 
         private fun commandNotFound() = "I don't know what to do - wrong command!"
         fun processCommand() = when(command.toLowerCase()){
+            "go" -> move(argument)
             else -> commandNotFound()
         }
     }
+    private fun move(directionInput:String) =
+            try{
+
+                val direction = Direction.valueOf(directionInput.toUpperCase())
+                val newPosition = direction.updateCoordinate(playerCoordinate = player.currentPosition)
+
+                if(!newPosition.isInBounds){
+                    throw IllegalStateException("$direction out of range of the map!")
+                }
+
+                val newRoom = worldMap[newPosition.y][newPosition.x]
+                player.currentPosition = newPosition
+                currentRoom = newRoom
+                "You are going $direction to ${newRoom.name}. \n${newRoom.load()}"
+
+            }catch (e : Exception){
+                "Invalid direction: $directionInput"
+            }
 }
