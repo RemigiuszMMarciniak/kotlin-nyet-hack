@@ -79,8 +79,6 @@ class Player(_name: String,
 
     override val diceCount = 3
     override val diceSides = 6
-    override val damageRoll: Int
-        get() = TODO("Not yet implemented")
 
     override fun attack(opponent: Fightable): Int {
         val damageDealt = if (isBlessed){

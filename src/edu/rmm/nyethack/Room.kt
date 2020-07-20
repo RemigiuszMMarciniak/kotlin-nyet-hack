@@ -2,8 +2,10 @@ package edu.rmm.nyethack
 
 open class Room(val name : String){
     protected open val dangerLevel = 5
+    var monster:Monster? = Goblin()
     open fun description() = "Room: $name \n" +
-            "Danger level: $dangerLevel"
+            "Danger level: $dangerLevel . \n"+
+            "Monster : ${monster?.description ?: "empty"}"
     open fun load() = "There is nothing interesting..."
 
 }

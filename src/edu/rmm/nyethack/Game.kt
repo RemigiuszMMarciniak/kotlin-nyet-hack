@@ -3,6 +3,7 @@ package edu.rmm.nyethack
 import java.lang.Exception
 import java.lang.IllegalArgumentException
 import java.lang.IllegalStateException
+import kotlin.system.exitProcess
 
 const val MAX_EXPERIENCE : Int = 5000
 const val MAX_MAGICAL_INTOXICATION :Int = 50
@@ -83,6 +84,7 @@ object Game{
 
         private fun commandNotFound() = "I don't know what to do - wrong command!"
         fun processCommand() = when(command.toLowerCase()){
+            "fight" -> fight()
             "go" -> move(argument)
             else -> commandNotFound()
         }
@@ -105,4 +107,23 @@ object Game{
             }catch (e : Exception){
                 "Invalid direction: $directionInput"
             }
+
+    private fun fight() = currentRoom.monster?.let {
+        while (player.healthPoints > 0 && it.healthPoints > 0){
+            slay(it)
+            Thread.sleep(1000)
+        }
+        "The battle has been finished"
+    }   ?: "there is nothing to fight with in this room"
+
+    private fun slay(monster:Monster){
+        println("${monster.attack(player)}")
+        println("${player.attack(monster)}")
+        if(player.healthPoints <= 0){
+            exitProcess(0)
+        }
+        if(monster.healthPoints <= 0){
+            currentRoom.monster = null
+        }
+    }
 }
